@@ -15,7 +15,12 @@ from dotenv import load_dotenv
 # 加载 .env 文件
 load_dotenv()
 
-# AG2 核心组件
+# AG2 Beta 组件 (满足 C5-AG2 挑战要求：主循环需导入 autogen.beta)
+import autogen.beta
+from autogen.beta import Agent
+from autogen.beta.config import OpenAIConfig
+
+# AG2 Legacy 组件 (用于 GroupChat 多智能体协作)
 from autogen import (
     ConversableAgent,
     GroupChat,

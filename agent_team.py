@@ -10,6 +10,10 @@ AG2 Multi-Agent - Lead + Critic 双智能体协作
 
     # Beta Agent-as-tool 模式（展示 AG2 Beta 原生 Agent 能力）
     python agent_team.py --mode beta
+
+    # 智能代码审查模式（Linter/Security/Perf/Logic 4 Agent 并行审查）
+    python agent_team.py --mode review
+    python code_review.py          # 直接运行（推荐）
 """
 
 import argparse
@@ -284,16 +288,28 @@ def main():
     )
     parser.add_argument(
         "--mode",
-        choices=["groupchat", "beta"],
+        choices=["groupchat", "beta", "review"],
         default="groupchat",
         help="运行模式 (默认: groupchat)",
     )
     args = parser.parse_args()
 
-    mode_name = "Beta Agent-as-tool" if args.mode == "beta" else "GroupChat"
+    mode_name_map = {
+        "groupchat": "GroupChat",
+        "beta": "Beta Agent-as-tool",
+        "review": "Code Review (4-Agent)",
+    }
+    mode_name = mode_name_map.get(args.mode, "GroupChat")
     print("\n" + "=" * 60)
     print(f"AG2 Multi-Agent Demo: {mode_name} Mode")
     print("=" * 60 + "\n")
+
+    # Code Review 模式跳转到 code_review.py
+    if args.mode == "review":
+        print("[INFO] Redirecting to code_review.py ...\n")
+        import code_review
+        code_review.main()
+        return
 
     demo_tasks = [
         "Analyze the core features of AG2 framework and provide code examples",

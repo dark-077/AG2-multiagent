@@ -4,9 +4,16 @@ AG2 Multi-Agent - Lead + Critic 双智能体协作
 使用 AG2 (formerly AutoGen) 0.12.x 构建多智能体系统
 
 运行方式:
-    .venv\\Scripts\\python.exe agent_team.py
+    # GroupChat 模式（默认）
+    python agent_team.py
+    python agent_team.py --mode groupchat
+
+    # Beta Agent-as-tool 模式（展示 AG2 Beta 原生 Agent 能力）
+    python agent_team.py --mode beta
 """
 
+import argparse
+import asyncio
 import os
 import sys
 from pathlib import Path
@@ -15,10 +22,11 @@ from dotenv import load_dotenv
 # 加载 .env 文件
 load_dotenv()
 
-# AG2 Beta 组件 (满足 C5-AG2 挑战要求：主循环需导入 autogen.beta)
+# AG2 Beta 组件
 import autogen.beta
 from autogen.beta import Agent
 from autogen.beta.config import OpenAIConfig
+from autogen.beta.tools.subagents.subagent_tool import subagent_tool
 
 # AG2 Legacy 组件 (用于 GroupChat 多智能体协作)
 from autogen import (
@@ -152,10 +160,10 @@ def create_group_chat_manager(group_chat: GroupChat) -> GroupChatManager:
 # 运行协作
 # ============================================================
 
-def run_collaboration(task: str):
-    """运行 Lead + Critic 协作"""
+def run_groupchat_mode(task: str):
+    """运行 GroupChat 模式：Lead + Critic 群聊协作"""
     print("\n" + "=" * 60)
-    print("AG2 Multi-Agent: Lead + Critic Collaboration")
+    print("AG2 Multi-Agent: Lead + Critic GroupChat")
     print("=" * 60)
     print(f"\nTask: {task}\n")
     print("-" * 60)
@@ -187,13 +195,104 @@ def run_collaboration(task: str):
 
 
 # ============================================================
+# Beta Agent-as-tool 模式
+# ============================================================
+
+async def run_beta_mode_async(task: str):
+    """Beta 模式：使用 AG2 Beta Agent 和 Agent-as-tool 模式"""
+    print("\n" + "=" * 60)
+    print("AG2 Multi-Agent: Beta Agent-as-tool Mode")
+    print("=" * 60)
+    print(f"\nTask: {task}\n")
+
+    # 创建 Beta Agent 配置
+    config = OpenAIConfig(
+        model=USE_MODEL,
+        api_key=USE_API_KEY,
+        base_url=OPENAI_API_BASE or None,
+    )
+
+    # 创建 Beta Agent
+    lead = Agent(
+        name="Lead",
+        config=config,
+        system_message="""You are a task decomposition expert (Lead Agent).
+Your responsibilities:
+1. Analyze user requests and break them into clear sub-tasks
+2. When you need a review, use the review_with_critic tool to ask the Critic agent
+3. Integrate results and provide final answers
+
+Communication style: Professional, concise, structured""",
+    )
+
+    critic = Agent(
+        name="Critic",
+        config=config,
+        system_message="""You are a quality review expert (Critic Agent).
+Your responsibilities:
+1. Review proposals or answers from Lead
+2. Provide constructive feedback and improvement suggestions
+3. Ensure output quality meets high standards
+4. Identify potential logical flaws or errors
+
+Communication style: Direct, objective, constructive""",
+    )
+
+    # 使用 subagent_tool 将 Critic 注册为 Lead 的工具（Agent-as-tool 模式）
+    review_tool = subagent_tool(
+        critic,
+        name="review_with_critic",
+        description="Ask the Critic agent to review a proposal or answer and provide improvement suggestions",
+    )
+
+    print("Running Beta Agent-as-tool mode...\n")
+    print("-" * 60)
+
+    # Lead 使用 ask() 方法发起任务，Critic 作为工具被调用
+    reply = await lead.ask(task, tools=[review_tool])
+
+    print("\n" + "-" * 60)
+    print("\n[OK] Beta mode completed!\n")
+
+    if reply and reply.body:
+        print("Result:")
+        print(reply.body)
+
+    return reply
+
+
+def run_beta_mode(task: str):
+    """运行 Beta Agent-as-tool 模式的同步入口"""
+    return asyncio.run(run_beta_mode_async(task))
+
+
+# ============================================================
 # 主函数
 # ============================================================
 
 def main():
     """主函数"""
+    # 解析命令行参数
+    parser = argparse.ArgumentParser(
+        description="AG2 Multi-Agent Demo",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+运行模式:
+  groupchat (默认)  使用 AG2 Legacy GroupChat 实现 Lead + Critic 群聊协作
+  beta              使用 AG2 Beta Agent-as-tool 模式（展示 Beta 原生 Agent 能力）
+        """,
+    )
+    parser.add_argument(
+        "--mode",
+        choices=["groupchat", "beta"],
+        default="groupchat",
+        help="运行模式 (默认: groupchat)",
+    )
+    args = parser.parse_args()
+
+    mode_name = "Beta Agent-as-tool" if args.mode == "beta" else "GroupChat"
     print("\n" + "=" * 60)
-    print("AG2 Multi-Agent Demo: Lead + Critic")
+    print(f"AG2 Multi-Agent Demo: {mode_name} Mode")
     print("=" * 60 + "\n")
 
     demo_tasks = [
@@ -206,12 +305,16 @@ def main():
     for i, task in enumerate(demo_tasks, 1):
         print(f"   {i}. {task}")
     print()
+    print(f"Running mode: {args.mode}\n")
 
     # 使用第一个任务
     task = demo_tasks[0]
 
     try:
-        run_collaboration(task)
+        if args.mode == "beta":
+            run_beta_mode(task)
+        else:
+            run_groupchat_mode(task)
     except Exception as e:
         print(f"\n[ERROR] {type(e).__name__}: {e}")
         import traceback

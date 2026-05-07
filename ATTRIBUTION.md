@@ -67,6 +67,27 @@ llm_config={
 }
 ```
 
+### 4. Beta Agent-as-tool 模式
+
+**来源**: AG2 Beta `subagent_tool` API（`autogen/beta/tools/subagents/subagent_tool.py`）
+
+使用 `subagent_tool` 将一个 Beta Agent 注册为另一个 Agent 的工具，实现 Agent-as-tool 模式：
+
+```python
+from autogen.beta.tools.subagents.subagent_tool import subagent_tool
+
+review_tool = subagent_tool(
+    critic,
+    name="review_with_critic",
+    description="Ask the Critic agent to review",
+)
+
+reply = await lead.ask(task, tools=[review_tool])
+```
+
+这种模式下，Critic Agent 作为 Lead Agent 的 sub-tool 被调用，展示 AG2 Beta 原生的 Agent 间协作能力，与 Legacy GroupChat 的平等对话模式形成对比。
+```
+
 ---
 
 ## 自主开发部分

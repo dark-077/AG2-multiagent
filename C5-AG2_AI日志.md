@@ -108,6 +108,31 @@
 
 ---
 
+### 第 6 轮：添加 Beta Agent-as-tool 模式
+
+**问题/任务**: 提升 AG2 Beta 组件的实际利用程度，展示 Agent-as-tool 高级特性
+
+**AI 行为**:
+- 分析 AG2 0.12.2 的 autogen.beta 源码结构，理解 Agent 类和 subagent_tool API
+- 发现 `subagent_tool()` 可将一个 Beta Agent 注册为另一个 Agent 的工具函数
+- 学习 Agent.ask() 异步方法和 tools 参数传递方式
+- 阅读 autogen/beta/tools/subagents/subagent_tool.py 和 run_task.py 源码
+- 在 agent_team.py 中添加 `--mode beta` 命令行参数，不破坏现有 GroupChat 逻辑
+- 新增 `run_beta_mode()` 函数，使用 Beta Agent 原生 API 创建 Lead + Critic
+- 使用 `subagent_tool()` 将 Critic 注册为 Lead 的工具（Agent-as-tool 模式）
+- 更新 README.md，增加硅基流动配置说明、5分钟上手指南
+- 补充 .env.example 的 OPENAI_API_BASE 示例
+- 更新 ATTRIBUTION.md 记录 Beta Agent-as-tool 借鉴来源
+
+**结果**:
+- ✅ `--mode beta` 参数正常工作，不破坏现有功能
+- ✅ Beta Agent-as-tool 模式展示 AG2 原生 Agent 协作能力
+- ✅ Legacy GroupChat + Beta Agent-as-tool 双模式并存
+- ✅ README 包含完整国产 API 配置说明
+- ✅ .env.example 直接包含硅基流动配置模板
+
+**反思**: AG2 Beta 的 Agent-as-tool 模式与 Legacy GroupChat 代表了两种不同的多智能体协作范式：GroupChat 是平等对话，Agent-as-tool 是主从协作。两者各有适用场景，同时展示可体现对 AG2 框架的深入理解。subagent_tool API 设计简洁，将 agent 注册为 tool 后，Lead 在 ask() 时自动判断是否需要调用子 agent。
+
 ## 总结
 
 | 阶段 | 状态 | 说明 |
@@ -117,6 +142,7 @@
 | API 测试 | ✅ 完成 | 硅基流动 API 成功运行 |
 | 群聊优化 | ✅ 完成 | round_robin 模式 |
 | GitHub 整理 | ✅ 完成 | 文件重命名 |
+| Beta Agent-as-tool | ✅ 完成 | 添加 --mode beta 参数，展示 Agent-as-tool 模式 |
 | Demo 录制 | ⏳ 待做 | 录制演示视频 |
 
 ---

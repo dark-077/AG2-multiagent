@@ -47,18 +47,42 @@
 
 ### 第 3 部分：运行演示（30秒）
 
-1. 打开终端
-2. 运行 `python agent_team.py`
-3. 展示多智能体对话过程
-4. 展示最终结果
+1. 打开终端（建议使用 Windows Terminal 或 VS Code 终端）
+2. 先演示 GroupChat 模式：
+   ```bash
+   python agent_team.py --mode groupchat
+   ```
+3. 再演示 Beta Agent-as-tool 模式（展示 `--mode beta` 新特性）：
+   ```bash
+   python agent_team.py --mode beta
+   ```
+4. 展示多智能体对话过程
+5. 展示最终结果
 
 **话术**：
 ```
 "现在让我演示一下系统的运行效果。
-[运行命令]
-可以看到，两个智能体正在协作...
+[运行 --mode groupchat]
+可以看到，两个智能体通过 GroupChat 平等协作...
 [等待对话完成]
-最终，Lead 整合了 Critic 的反馈，给出了完整的回答。"
+
+接下来切换 Beta 模式：
+[运行 --mode beta]
+这次 Critic Agent 作为 Lead 的工具被调用，展示 AG2 Beta 原生的 Agent-as-tool 模式。
+[等待对话完成]
+
+两种模式展示了 AG2 框架在不同协作场景下的灵活性。"
+```
+
+### 第 4 部分：亮点总结（15秒）
+
+```
+"项目亮点：
+1. 双模式运行：同时支持 GroupChat 和 Beta Agent-as-tool
+2. 国产 API 兼容：无缝接入硅基流动
+3. 5 分钟上手：clone 即用
+
+更多信息请访问 GitHub 仓库。"
 ```
 
 ---

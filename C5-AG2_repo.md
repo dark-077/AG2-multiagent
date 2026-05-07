@@ -70,7 +70,7 @@ AG2-multiagent/
 ├── requirements.txt       # 依赖列表
 ├── agent_team.py         # Lead + Critic 双智能体协作
 ├── code_review.py        # 智能代码审查系统（4 Agent 并行）
-├── DEMO_GUIDE.md         # 演示指南（含视频录制脚本）
+
 ├── hello_multiagent.py   # 基础示例
 ├── simple_test.py        # 简单测试脚本
 ├── check_deps.py         # 依赖检查脚本

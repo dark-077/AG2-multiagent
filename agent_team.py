@@ -203,20 +203,35 @@ def run_groupchat_mode(task: str):
 # ============================================================
 
 async def run_beta_mode_async(task: str):
-    """Beta 模式：使用 AG2 Beta Agent 和 Agent-as-tool 模式"""
+    """
+    Beta 模式：使用 AG2 Beta Agent 和 Agent-as-tool 模式
+    
+    展示 AG2 Beta 原生特性：
+    1. autogen.beta.Agent 异步创建
+    2. subagent_tool() 将 Agent 注册为工具
+    3. Agent.ask() 异步方法调用
+    4. 工具调用结果自动处理
+    5. Beta Agent 的 reply.body 结构
+    """
     print("\n" + "=" * 60)
     print("AG2 Multi-Agent: Beta Agent-as-tool Mode")
     print("=" * 60)
+    print("\n[Beta 原生特性]")
+    print("  1. autogen.beta.Agent 异步创建")
+    print("  2. subagent_tool() Agent-as-tool 注册")
+    print("  3. Agent.ask() 异步工具调用")
+    print("  4. Beta reply.body 结构化返回")
+    print("-" * 60)
     print(f"\nTask: {task}\n")
 
-    # 创建 Beta Agent 配置
+    # 创建 Beta Agent 配置（使用 OpenAIConfig 兼容硅基流动）
     config = OpenAIConfig(
         model=USE_MODEL,
         api_key=USE_API_KEY,
         base_url=OPENAI_API_BASE or None,
     )
 
-    # 创建 Beta Agent
+    # 创建 Beta Agent - Lead（任务分解专家）
     lead = Agent(
         name="Lead",
         config=config,
@@ -229,6 +244,7 @@ Your responsibilities:
 Communication style: Professional, concise, structured""",
     )
 
+    # 创建 Beta Agent - Critic（质量审查专家）
     critic = Agent(
         name="Critic",
         config=config,
@@ -243,23 +259,31 @@ Communication style: Direct, objective, constructive""",
     )
 
     # 使用 subagent_tool 将 Critic 注册为 Lead 的工具（Agent-as-tool 模式）
+    # 这是 AG2 Beta 的核心特性之一
     review_tool = subagent_tool(
         critic,
         name="review_with_critic",
         description="Ask the Critic agent to review a proposal or answer and provide improvement suggestions",
     )
 
-    print("Running Beta Agent-as-tool mode...\n")
+    print("Running Beta Agent-as-tool mode...")
+    print("\n[Step 1] Lead Agent receives task...")
     print("-" * 60)
 
     # Lead 使用 ask() 方法发起任务，Critic 作为工具被调用
+    # ask() 是 Beta Agent 的原生异步方法
+    print("[Step 2] Lead Agent uses review_with_critic tool (subagent_tool)...")
     reply = await lead.ask(task, tools=[review_tool])
 
-    print("\n" + "-" * 60)
+    print("\n[Step 3] Beta reply received:")
+    print("-" * 60)
     print("\n[OK] Beta mode completed!\n")
 
-    if reply and reply.body:
-        print("Result:")
+    # Beta Agent 返回的 reply 是一个结构化对象，包含 body 属性
+    if reply and hasattr(reply, 'body'):
+        print("=" * 60)
+        print("FINAL RESULT (Beta reply.body)")
+        print("=" * 60)
         print(reply.body)
 
     return reply

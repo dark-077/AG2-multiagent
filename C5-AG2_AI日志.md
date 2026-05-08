@@ -123,6 +123,7 @@
 - 更新 README.md，增加硅基流动配置说明、5分钟上手指南
 - 补充 .env.example 的 OPENAI_API_BASE 示例
 - 更新 ATTRIBUTION.md 记录 Beta Agent-as-tool 借鉴来源
+- 创建 DEMO_GUIDE.md 视频录制脚本
 
 **结果**:
 - ✅ `--mode beta` 参数正常工作，不破坏现有功能
@@ -130,8 +131,26 @@
 - ✅ Legacy GroupChat + Beta Agent-as-tool 双模式并存
 - ✅ README 包含完整国产 API 配置说明
 - ✅ .env.example 直接包含硅基流动配置模板
+- ✅ DEMO_GUIDE.md 提供 60-90 秒视频录制脚本
 
 **反思**: AG2 Beta 的 Agent-as-tool 模式与 Legacy GroupChat 代表了两种不同的多智能体协作范式：GroupChat 是平等对话，Agent-as-tool 是主从协作。两者各有适用场景，同时展示可体现对 AG2 框架的深入理解。subagent_tool API 设计简洁，将 agent 注册为 tool 后，Lead 在 ask() 时自动判断是否需要调用子 agent。
+
+### 第 7 轮：Beta 模式增强与文档完善
+
+**问题/任务**: 增强 Beta Agent-as-tool 模式展示，创建提交文件模板
+
+**AI 行为**:
+- 增强 agent_team.py 的 beta 模式，添加更详细的 Beta 原生特性展示
+- 添加注释说明 AG2 Beta 的四大核心特性
+- 创建 DEMO_GUIDE.md 视频录制指南
+- 创建黄荣康_C5-AG2_repo.md 提交文件模板
+
+**结果**:
+- ✅ Beta 模式增加特性说明注释
+- ✅ DEMO_GUIDE.md 提供完整视频脚本
+- ✅ 提交文件模板就绪
+
+**反思**: 文档完善和视频准备是提交前的重要步骤，清晰的演示脚本可大幅提升视频录制效率。
 
 ## 总结
 
@@ -143,7 +162,7 @@
 | 群聊优化 | ✅ 完成 | round_robin 模式 |
 | GitHub 整理 | ✅ 完成 | 文件重命名 |
 | Beta Agent-as-tool | ✅ 完成 | 添加 --mode beta 参数，展示 Agent-as-tool 模式 |
-| Demo 录制 | ⏳ 待做 | 录制演示视频 |
+| Demo 录制 | ⏳ 待做 | 录制 60-90 秒演示视频 |
 
 ---
 

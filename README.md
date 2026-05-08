@@ -12,7 +12,6 @@
 | 框架 | AG2 (formerly AutoGen) 0.12.x |
 | GitHub | https://github.com/dark-077/AG2-multiagent |
 | 运行模式 | GroupChat（Legacy） / Beta Agent-as-tool |
-| 作者 | 黄荣康 |
 
 ## 🎯 项目目标
 

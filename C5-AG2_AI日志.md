@@ -5,7 +5,6 @@
 - **GitHub 仓库**: https://github.com/dark-077/AG2-multiagent
 - **挑战**: C5-AG2 多智能体编程挑战
 - **赛道**: multi-agent 多智能体
-- **作者**: 黄荣康
 
 ---
 

@@ -20,7 +20,40 @@
 
 ## 核心功能
 
-1. **Lead Agent**: 任务拆解和执行专家
+### 1. 导航规划系统 (navigation.py)
+
+**5 Agent 协作**：RoutePlanner + WeatherAgent + TransportAgent + BudgetAgent + ScheduleAgent
+
+- 实时天气查询
+- 交通方案比选
+- 预算智能分配
+- 行程自动生成
+
+```bash
+python navigation.py --mode demo      # 演示模式
+python navigation.py --mode groupchat # 真实AI协作
+```
+
+### 2. 代码审查系统 (code_review.py)
+
+**4 Agent 并行审查**：LinterAgent + SecurityAgent + PerfAgent + LogicAgent
+
+- 代码风格检查
+- 安全漏洞扫描
+- 性能分析
+- 业务逻辑审查
+
+```bash
+python code_review.py --mode demo      # 演示模式
+python code_review.py --mode groupchat # 真实AI协作
+```
+
+### 3. Lead + Critic 双智能体 (agent_team.py)
+
+**基础协作系统**：Lead Agent + Critic Agent
+
+- 任务拆解和执行
+- 质量审查和反馈
    - 分析用户请求并分解为子任务
    - 协调其他 Agent 完成工作
    - 整合结果并提供最终答案
@@ -68,11 +101,10 @@ AG2-multiagent/
 ├── README.md              # 项目说明
 ├── requirements.txt       # 依赖列表
 ├── agent_team.py         # Lead + Critic 双智能体协作
+├── navigation.py         # 实时导航规划系统（5 Agent 协作）
 ├── code_review.py        # 智能代码审查系统（4 Agent 并行）
-
+├── demo_run.py           # 演示模式（无需 API）
 ├── hello_multiagent.py   # 基础示例
-├── simple_test.py        # 简单测试脚本
-├── check_deps.py         # 依赖检查脚本
 ├── .env                   # API 密钥配置（不提交）
 ├── .env.example           # API 密钥模板
 ├── C5-AG2_AI日志.md       # AI 迭代日志

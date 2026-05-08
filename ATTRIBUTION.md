@@ -9,8 +9,7 @@
 | 资源 | 来源 | 用途 |
 |------|------|------|
 | AG2 官方文档 | https://docs.ag2.ai/ | API 参考和最佳实践 |
-| AG2 Beta Examples | `references/ag2_docs/20_beta_example_hello_agent.mdx` | 单 Agent 基础架构 |
-| AG2 Beta Research Squad | `references/ag2_docs/21_beta_example_research_squad.mdx` | 多 Agent 协作模式 |
+| AG2 GitHub Examples | https://github.com/ag2ai/ag2 | Agent 系统设计和示例 |
 | C5-AG2 Hackathon Starter | 挑战包自带 | 挑战规则和评分标准 |
 
 ---
@@ -19,9 +18,9 @@
 
 ### 1. Agent 系统设计
 
-**来源**: `references/ag2_docs/21_beta_example_research_squad.mdx`
+**来源**: AG2 GitHub 官方示例
 
-Lead + Critic 双 Agent 协作模式借鉴自 research_squad 示例中的角色分工设计：
+Lead + Critic 双 Agent 协作模式借鉴自 AG2 示例中的角色分工设计：
 
 ```
 +--------------------------------+
@@ -51,7 +50,7 @@ group_chat = GroupChat(
 
 ### 3. API 配置模式
 
-**来源**: `references/ag2_docs/14_beta_model_configuration.mdx`
+**来源**: AG2 官方文档和硅基流动 API 配置指南
 
 使用 `base_url` 参数支持 OpenAI 兼容 API 端点（包括硅基流动等国内服务商）：
 
@@ -69,7 +68,9 @@ llm_config={
 
 ### 4. Beta Agent-as-tool 模式
 
-**来源**: AG2 Beta `subagent_tool` API（`autogen/beta/tools/subagents/subagent_tool.py`）
+**来源**: AG2 Beta 官方文档和源码分析
+
+通过阅读 AG2 `autogen.beta` 源码，理解 `subagent_tool` API 的使用方式：
 
 使用 `subagent_tool` 将一个 Beta Agent 注册为另一个 Agent 的工具，实现 Agent-as-tool 模式：
 

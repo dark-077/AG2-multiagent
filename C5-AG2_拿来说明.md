@@ -57,9 +57,9 @@ manager = GroupChatManager(groupchat=group_chat, llm_config=...)
 
 ## 原创内容
 
-1. **黄荣康_C5-AG2_repo.md** - 仓库提交物说明
-2. **黄荣康_C5-AG2_AI日志.md** - AI 迭代记录
-3. **黄荣康_C5-AG2_拿来说明.md** - 本文档
+1. **牛子超_C5-AG2_repo.md** - 仓库提交物说明
+2. **牛子超_C5-AG2_AI日志.md** - AI 迭代记录
+3. **牛子超_C5-AG2_拿来说明.md** - 本文档
 
 ---
 

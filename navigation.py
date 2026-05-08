@@ -46,10 +46,6 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", "")
 
-if not OPENAI_API_KEY and not ANTHROPIC_API_KEY:
-    print("ERROR: No API key found! Please set OPENAI_API_KEY or ANTHROPIC_API_KEY in .env")
-    sys.exit(1)
-
 USE_MODEL = "Qwen/Qwen2.5-72B-Instruct" if OPENAI_API_KEY else "claude-sonnet-4-20250514"
 USE_API_KEY = OPENAI_API_KEY if OPENAI_API_KEY else ANTHROPIC_API_KEY
 
@@ -475,6 +471,12 @@ def main():
 
     print(f"\n[INFO] Task: {args.task}")
     print(f"[INFO] Mode: {args.mode}\n")
+
+    # 只在需要 API 的模式下检查 API Key
+    if args.mode != "demo":
+        if not OPENAI_API_KEY and not ANTHROPIC_API_KEY:
+            print("ERROR: No API key found! Please set OPENAI_API_KEY or ANTHROPIC_API_KEY in .env")
+            sys.exit(1)
 
     try:
         if args.mode == "beta":

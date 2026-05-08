@@ -77,7 +77,7 @@
 - 将 speaker_selection_method 从 "auto" 改为 "round_robin"
 - 添加 allow_repeat_speaker=False 配置
 - 修复 docstring 中的转义字符警告
-- 移除文件名中的个人名字（黄荣康 → 通用命名）
+- 移除文件名中的个人名字（牛子超 → 通用命名）
 - 提交并推送到 GitHub
 
 **结果**:
@@ -95,7 +95,7 @@
 
 **AI 行为**:
 - 使用 git mv 重命名文件
-- 移除文件名中的"黄荣康"
+- 移除文件名中的"牛子超"
 - 提交更改到 main 分支
 - 推送到 origin/main
 
@@ -142,7 +142,7 @@
 - 增强 agent_team.py 的 beta 模式，添加更详细的 Beta 原生特性展示
 - 添加注释说明 AG2 Beta 的四大核心特性
 - 创建 DEMO_GUIDE.md 视频录制指南
-- 创建黄荣康_C5-AG2_repo.md 提交文件模板
+- 创建牛子超_C5-AG2_repo.md 提交文件模板
 
 **结果**:
 - ✅ Beta 模式增加特性说明注释
